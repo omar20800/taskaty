@@ -5,6 +5,7 @@ class AppLocalStorage {
   static Box? userBox;
   static Box<TaskModel>? taskBox;
 
+
   static init() {
     userBox = Hive.box("userBox");
     taskBox = Hive.box<TaskModel>("taskBox");
