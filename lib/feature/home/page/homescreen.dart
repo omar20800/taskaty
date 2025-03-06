@@ -7,6 +7,7 @@ import 'package:taskaty/core/utils/app_colors.dart';
 import 'package:taskaty/core/utils/text_style.dart';
 import 'package:taskaty/core/widgets/custom_button.dart';
 import 'package:taskaty/feature/create%20task/page/addtaskscreen.dart';
+import 'package:taskaty/feature/edit%20profile/page/editprofilescreen.dart';
 import 'package:taskaty/feature/home/widgets/home_header.dart';
 import 'package:taskaty/feature/home/widgets/task_list_builder.dart';
 
@@ -28,7 +29,12 @@ class _HomescreenState extends State<Homescreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: Column(
             children: [
-              HomeHeader(),
+              InkWell(
+                onTap: ()  {
+                  context.pushReplacement(Editprofilescreen());
+                },
+                child: HomeHeader(),
+              ),
               const SizedBox(height: 20),
               Row(
                 children: [
