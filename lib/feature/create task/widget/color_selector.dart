@@ -8,19 +8,25 @@ class ColorSelector extends StatefulWidget {
     required this.onTapblue,
     required this.onTapred,
     required this.onTaporange,
+    this.initColor,
   });
   final Function onTapblue;
   final Function onTapred;
   final Function onTaporange;
-
+  final int? initColor;
 
   @override
   State<ColorSelector> createState() => _ColorSelectorState();
 }
 
 class _ColorSelectorState extends State<ColorSelector> {
-  int selectedColor = 0;
+  late int selectedColor;
   @override
+  void initState() {
+    super.initState();
+    selectedColor = widget.initColor ?? 0;
+  }
+
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

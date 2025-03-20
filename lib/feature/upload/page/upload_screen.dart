@@ -30,7 +30,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 if (path != null && nameController.text.isNotEmpty) {
                   AppLocalStorage.cacheData("name", nameController.text);
                   AppLocalStorage.cacheData("image", path);
-                  context.pushReplacement(Homescreen());
+                  context.pushReplacement(HomeScreen());
                 }
               }
             },

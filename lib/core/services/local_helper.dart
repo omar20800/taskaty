@@ -1,10 +1,10 @@
 import 'package:hive/hive.dart';
+import 'package:taskaty/core/functions/dateconvert.dart';
 import 'package:taskaty/core/model/task_model.dart';
 
 class AppLocalStorage {
   static Box? userBox;
   static Box<TaskModel>? taskBox;
-
 
   static init() {
     userBox = Hive.box("userBox");
@@ -25,5 +25,13 @@ class AppLocalStorage {
 
   static TaskModel? getCachedTask(String key) {
     return taskBox?.get(key);
+  }
+
+  static deleteOldTasks() {
+    List<TaskModel>.from(taskBox!.values).forEach((element) async {
+      if (dateConvert(element.date).isBefore(DateTime.now())) {
+        await taskBox?.delete(element.id);
+      }
+    });
   }
 }

@@ -29,6 +29,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: UniqueKey(),
+
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
           dissRtL();
@@ -38,15 +39,28 @@ class TaskCard extends StatelessWidget {
         }
       },
       background: Container(
+        height: 100,
         padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(color: Colors.green),
+        decoration: BoxDecoration(
+          color:
+              isCompleted
+                  ? color == 0
+                      ? AppColors.primaryColor
+                      : color == 1
+                      ? AppColors.roseColor
+                      : AppColors.orangeColor
+                  : AppColors.greenColor,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(Icons.check, color: AppColors.whiteColor),
+            Icon(
+              isCompleted ? Icons.close : Icons.check,
+              color: AppColors.whiteColor,
+            ),
             SizedBox(width: 10),
             Text(
-              'Complete',
+              isCompleted ? 'Not Complete' : 'Complete',
               style: getBodyTextStyle(color: AppColors.whiteColor),
             ),
           ],
@@ -54,7 +68,7 @@ class TaskCard extends StatelessWidget {
       ),
       secondaryBackground: Container(
         padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(color: Colors.red),
+        decoration: BoxDecoration(color: AppColors.redColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -78,7 +92,7 @@ class TaskCard extends StatelessWidget {
                   : color == 0
                   ? AppColors.primaryColor
                   : color == 1
-                  ? AppColors.redColor
+                  ? AppColors.roseColor
                   : AppColors.orangeColor,
           borderRadius: BorderRadius.circular(10),
           shape: BoxShape.rectangle,

@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (AppLocalStorage.getCachedData('name') == null) {
         context.pushReplacement(UploadScreen());
       } else {
-        context.pushReplacement(Homescreen());
+        context.pushReplacement(HomeScreen());
       }
     });
   }

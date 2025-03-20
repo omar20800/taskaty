@@ -10,8 +10,8 @@ void main() async {
   Hive.registerAdapter(TaskModelAdapter());
   await Hive.openBox("userBox");
   await Hive.openBox<TaskModel>("taskBox");
-
-  AppLocalStorage.init();
+  await AppLocalStorage.init();
+  await AppLocalStorage.deleteOldTasks();
   runApp(const MainApp());
 }
 

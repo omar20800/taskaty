@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskaty/core/extentions/extenstions.dart';
@@ -37,7 +36,7 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
               if (_formKey.currentState!.validate()) {
                 AppLocalStorage.userBox!.put("name", nameController.text);
                 AppLocalStorage.userBox!.put("image", imagepath);
-                context.pushReplacement(Homescreen());
+                context.pushReplacement(HomeScreen());
               }
             },
             icon: Icon(Icons.check, color: AppColors.primaryColor),
@@ -45,7 +44,7 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
         ],
         leading: IconButton(
           onPressed: () {
-            context.pushReplacement(Homescreen());
+            context.pushReplacement(HomeScreen());
           },
           icon: Icon(Icons.close, color: AppColors.primaryColor),
         ),
@@ -54,83 +53,118 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return SizedBox(
-                          height: 150,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 20,
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return SizedBox(
+                                height: 150,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 20,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      CustomButton(
+                                        width: double.infinity,
+                                        text: "Camera",
+                                        onPressed: () {
+                                          uploadImage(true);
+                                        },
+                                      ),
+                                      CustomButton(
+                                        width: double.infinity,
+                                        text: "Gallery",
+                                        onPressed: () {
+                                          uploadImage(false);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: FileImage(File(imagepath)),
                             ),
-                            child: Column(
-                              children: [
-                                CustomButton(
-                                  width: double.infinity,
-                                  text: "Camera",
-                                  onPressed: () {
-                                    uploadImage(true);
-                                  },
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.primaryColor,
                                 ),
-                                CustomButton(
-                                  width: double.infinity,
-                                  text: "Gallery",
-                                  onPressed: () {
-                                    uploadImage(false);
-                                  },
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  color: AppColors.whiteColor,
+                                  size: 20,
                                 ),
-                              ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        validator:
+                            (value) => value!.isEmpty ? "Enter Name" : null,
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: AppColors.primaryColor,
                             ),
                           ),
-                        );
-                      },
-                    );
-                  },
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: FileImage(File(imagepath)),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Text(
+                      //         "Dark Mode",
+                      //         style: getTitleTextStyle(),
+                      //       ),
+                      //     ),
+                      //     Switch(
+                      //       value: dark,
+                      //       onChanged: (value) {
+                      //         setState(() {
+                      //           dark = value;
+                      //         });
+                      //       },
+                      //     ),
+                      //   ],
+                      // ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  validator: (value) => value!.isEmpty ? "Enter Name" : null,
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: AppColors.primaryColor),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text("Dark Mode", style: getTitleTextStyle()),
-                    ),
-                    Switch(
-                      value: dark,
-                      onChanged: (value) {
-                        setState(() {
-                          dark = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

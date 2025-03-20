@@ -2,6 +2,7 @@ import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:taskaty/core/extentions/extenstions.dart';
+import 'package:taskaty/core/functions/dateformat.dart';
 
 import 'package:taskaty/core/utils/app_colors.dart';
 import 'package:taskaty/core/utils/text_style.dart';
@@ -11,15 +12,23 @@ import 'package:taskaty/feature/edit%20profile/page/editprofilescreen.dart';
 import 'package:taskaty/feature/home/widgets/home_header.dart';
 import 'package:taskaty/feature/home/widgets/task_list_builder.dart';
 
-class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<Homescreen> createState() => _HomescreenState();
+  State<HomeScreen> createState() => _HomescreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
-  String? filterDate;
+class _HomescreenState extends State<HomeScreen> {
+  late String filterDate;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      filterDate = dateFormat(DateTime.now());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +39,7 @@ class _HomescreenState extends State<Homescreen> {
           child: Column(
             children: [
               InkWell(
-                onTap: ()  {
+                onTap: () {
                   context.pushReplacement(Editprofilescreen());
                 },
                 child: HomeHeader(),
@@ -43,7 +52,7 @@ class _HomescreenState extends State<Homescreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          DateFormat('EEEE, dd yyyy').format(DateTime.now()),
+                          dateFormat(DateTime.now()),
                           style: getTitleTextStyle(),
                         ),
                         const SizedBox(height: 10),
@@ -53,8 +62,9 @@ class _HomescreenState extends State<Homescreen> {
                   ),
                   CustomButton(
                     text: "+ Add Task",
-                    onPressed: () {
-                      context.pushTo(Addtaskscreen());
+                    onPressed: () async {
+                      await context.pushTo(Addtaskscreen());
+                      setState(() {});
                     },
                     width: 150,
                   ),
@@ -77,7 +87,13 @@ class _HomescreenState extends State<Homescreen> {
                 },
               ),
               const SizedBox(height: 20),
-              TaskListBuilder(filterDate: filterDate),
+              TaskListBuilder(
+                filterDate: filterDate,
+                onTap: (task) async {
+                  await context.pushTo(Addtaskscreen(etask: task));
+                  setState(() {});
+                },
+              ),
             ],
           ),
         ),
