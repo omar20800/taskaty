@@ -95,8 +95,6 @@ class _AddtaskscreenState extends State<Addtaskscreen> {
                           : descriptionController,
                   maxLines: 3,
                   decoration: InputDecoration(
-                    labelText: 'Description',
-
                     hintText: widget.etask != null ? null : 'Enter Description',
                     hintStyle: getBodyTextStyle(),
                     border: OutlineInputBorder(

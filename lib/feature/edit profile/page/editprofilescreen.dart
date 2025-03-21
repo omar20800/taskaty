@@ -18,7 +18,7 @@ class Editprofilescreen extends StatefulWidget {
 class _EditprofilescreenState extends State<Editprofilescreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  bool dark = false;
+  bool dark = AppLocalStorage.getCachedData(AppLocalStorage.isDarkTheme);
   @override
   void initState() {
     super.initState();
@@ -46,9 +46,9 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
           onPressed: () {
             context.pushReplacement(HomeScreen());
           },
-          icon: Icon(Icons.close, color: AppColors.primaryColor),
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.primaryColor),
         ),
-        title: const Text("Edit Profile"),
+        title: Text("Edit Profile"),
         centerTitle: true,
       ),
       body: Form(
@@ -102,7 +102,7 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
                         child: Stack(
                           children: [
                             CircleAvatar(
-                              radius: 50,
+                              radius: 70,
                               backgroundImage: FileImage(File(imagepath)),
                             ),
                             Positioned(
@@ -130,35 +130,30 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
                         validator:
                             (value) => value!.isEmpty ? "Enter Name" : null,
                         controller: nameController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 20),
-
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: Text(
-                      //         "Dark Mode",
-                      //         style: getTitleTextStyle(),
-                      //       ),
-                      //     ),
-                      //     Switch(
-                      //       value: dark,
-                      //       onChanged: (value) {
-                      //         setState(() {
-                      //           dark = value;
-                      //         });
-                      //       },
-                      //     ),
-                      //   ],
-                      // ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Dark Mode",
+                              style: getTitleTextStyle(),
+                            ),
+                          ),
+                          Switch(
+                            value: dark,
+                            onChanged: (value) {
+                              setState(() {
+                                dark = value;
+                                AppLocalStorage.userBox!.put(
+                                  "isDarkTheme",
+                                  dark,
+                                );
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

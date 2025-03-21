@@ -68,7 +68,7 @@ class _ColorSelectorState extends State<ColorSelector> {
                 width: 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.redColor,
+                  color: AppColors.roseColor,
                 ),
                 child:
                     selectedColor == 1

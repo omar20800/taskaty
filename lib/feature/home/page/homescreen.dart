@@ -78,8 +78,14 @@ class _HomescreenState extends State<HomeScreen> {
                 initialSelectedDate: DateTime.now(),
                 selectionColor: AppColors.primaryColor,
                 selectedTextColor: Colors.white,
+                deactivatedColor: AppColors.whiteColor,
                 daysCount: 20,
-                dateTextStyle: getTitleTextStyle(fontSize: 30),
+                dayTextStyle: getBodyTextStyle(fontSize: 14),
+                monthTextStyle: getBodyTextStyle(fontSize: 14),
+                dateTextStyle: getBodyTextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
+                ),
                 onDateChange: (date) {
                   setState(() {
                     filterDate = DateFormat('dd-MM-yyyy').format(date);
