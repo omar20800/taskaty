@@ -18,7 +18,12 @@ class Editprofilescreen extends StatefulWidget {
 class _EditprofilescreenState extends State<Editprofilescreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
-  bool dark = AppLocalStorage.getCachedData(AppLocalStorage.isDarkTheme);
+  final String oldimage = AppLocalStorage.getCachedData('image');
+  final String oldname = AppLocalStorage.getCachedData('name');
+  bool dark =
+      AppLocalStorage.getCachedData(AppLocalStorage.isDarkTheme) ?? false;
+  bool isChanged = false;
+
   @override
   void initState() {
     super.initState();
@@ -31,15 +36,18 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                AppLocalStorage.userBox!.put("name", nameController.text);
-                AppLocalStorage.userBox!.put("image", imagepath);
-                context.pushReplacement(HomeScreen());
-              }
-            },
-            icon: Icon(Icons.check, color: AppColors.primaryColor),
+          Visibility(
+            visible: isChanged,
+            child: IconButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  AppLocalStorage.userBox!.put("name", nameController.text);
+                  AppLocalStorage.userBox!.put("image", imagepath);
+                  context.pushReplacement(HomeScreen());
+                }
+              },
+              icon: Icon(Icons.check, color: AppColors.primaryColor),
+            ),
           ),
         ],
         leading: IconButton(
@@ -127,6 +135,18 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        onChanged: (value) {
+                          if (value != oldname || imagepath != oldimage) {
+                            setState(() {
+                              isChanged = true;
+                            });
+                          } else if (value == oldname &&
+                              oldimage == imagepath) {
+                            setState(() {
+                              isChanged = false;
+                            });
+                          }
+                        },
                         validator:
                             (value) => value!.isEmpty ? "Enter Name" : null,
                         controller: nameController,
@@ -141,6 +161,7 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
                             ),
                           ),
                           Switch(
+                            activeColor: AppColors.primaryColor,
                             value: dark,
                             onChanged: (value) {
                               setState(() {
@@ -172,6 +193,7 @@ class _EditprofilescreenState extends State<Editprofilescreen> {
     if (pickedImage != null) {
       setState(() {
         imagepath = pickedImage.path;
+        isChanged = true;
       });
     }
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taskaty/core/utils/app_colors.dart';
-import 'package:taskaty/core/utils/app_theme.dart';
 import 'package:taskaty/core/utils/text_style.dart';
 
 class CustomButton extends StatelessWidget {

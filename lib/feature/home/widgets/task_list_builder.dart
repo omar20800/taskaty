@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:taskaty/core/extentions/extenstions.dart';
 import 'package:taskaty/core/model/task_model.dart';
 import 'package:taskaty/core/services/local_helper.dart';
-import 'package:taskaty/feature/create%20task/page/addtaskscreen.dart';
 import 'package:taskaty/feature/home/widgets/task_card.dart';
 
 class TaskListBuilder extends StatelessWidget {

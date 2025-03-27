@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:hive/hive.dart';
 import 'package:taskaty/core/functions/dateconvert.dart';
 import 'package:taskaty/core/model/task_model.dart';

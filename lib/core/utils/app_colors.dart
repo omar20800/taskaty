@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taskaty/core/services/local_helper.dart';
-
 class AppColors {
   static const Color primaryColor = Color(0xFF4E5AE8);
   static const Color orangeColor = Color(0xFFFF8746);

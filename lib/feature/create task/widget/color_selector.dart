@@ -26,7 +26,7 @@ class _ColorSelectorState extends State<ColorSelector> {
     super.initState();
     selectedColor = widget.initColor ?? 0;
   }
-
+@override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
