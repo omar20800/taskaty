@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taskaty/core/model/task_model.dart';
 import 'package:taskaty/core/services/local_helper.dart';
+import 'package:taskaty/core/services/notify_service.dart';
 import 'package:taskaty/core/utils/app_theme.dart';
 import 'package:taskaty/feature/splash/page/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotifyService().init();
   await Hive.initFlutter();
   Hive.registerAdapter(TaskModelAdapter());
   await Hive.openBox("userBox");
@@ -15,10 +17,7 @@ void main() async {
   await AppLocalStorage.init();
   await AppLocalStorage.deleteOldTasks();
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark,
-      statusBarColor: Colors.transparent,
-    ),
+    SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
   runApp(const MainApp());
 }

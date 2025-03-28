@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:taskaty/core/functions/dateconvert.dart';
 import 'package:taskaty/core/functions/dateformat.dart';
+import 'package:taskaty/core/functions/get_color.dart';
 import 'package:taskaty/core/functions/timeconvert.dart';
 import 'package:taskaty/core/functions/timeformat.dart';
 import 'package:taskaty/core/model/task_model.dart';
 import 'package:taskaty/core/services/local_helper.dart';
+import 'package:taskaty/core/services/notify_service.dart';
 import 'package:taskaty/core/utils/app_colors.dart';
 import 'package:taskaty/core/utils/text_style.dart';
 import 'package:taskaty/core/widgets/custom_button.dart';
@@ -220,10 +222,7 @@ class _AddtaskscreenState extends State<Addtaskscreen> {
                           String key;
                           TaskModel task;
                           if (widget.etask == null) {
-                            key =
-                                DateTime.now().millisecondsSinceEpoch
-                                    .toString() +
-                                titleController.text.toString();
+                            key = UniqueKey().hashCode.toString();
                             task = TaskModel(
                               id: key,
                               title: titleController.text,
@@ -267,6 +266,31 @@ class _AddtaskscreenState extends State<Addtaskscreen> {
                             );
                           }
                           await AppLocalStorage.cacheTask(key, task);
+                          await NotifyService().scheduleNotification(
+                            id: int.parse(key),
+                            title: titleController.text,
+                            color: getColor(color ?? task.color),
+                            body: 'you have a task starts in one hour',
+                            year: dateConvert(selectedDate ?? task.date).year,
+                            month: dateConvert(selectedDate ?? task.date).month,
+                            day: dateConvert(selectedDate ?? task.date).day,
+                            hour:
+                                timeConvert(starttime ?? task.starttime).hour -
+                                1,
+                            minute:
+                                timeConvert(starttime ?? task.starttime).minute,
+                          );
+                          await NotifyService().scheduleNotification(
+                            id: int.parse(key) + 1,
+                            title: titleController.text,
+                            color: getColor(color ?? task.color),
+                            body: 'your task ends in one hour',
+                            year: dateConvert(selectedDate ?? task.date).year,
+                            month: dateConvert(selectedDate ?? task.date).month,
+                            day: dateConvert(selectedDate ?? task.date).day,
+                            hour: timeConvert(endtime ?? task.endtime).hour - 1,
+                            minute: timeConvert(endtime ?? task.endtime).minute,
+                          );
                           if (context.mounted) {
                             Navigator.pop(context);
                           }
